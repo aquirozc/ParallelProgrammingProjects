@@ -38,9 +38,11 @@ public class OrdenamientoCRCW{
         }
 
         Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
-        ListaDeTareas = new List<Task>();
+        
 
         for(int i = 1; i  <= L.Length-1; i++){
+
+            ListaDeTareas = new List<Task>();
 
             for(int j = i + 1; j <= L.Length-1;j++){
 
@@ -59,14 +61,16 @@ public class OrdenamientoCRCW{
 
                 }
 
-            ));
+                ));
 
             }
+
+             Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
             
 
         }
 
-        Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
+       
         ListaDeTareas = new List<Task>();
 
         for(int i = 1; i<= L.Length-1; i++){

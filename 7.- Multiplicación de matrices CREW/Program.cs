@@ -31,11 +31,13 @@ public class MultiplicacionDeMatricesCREW{
         string[,,] S = new string[m,m,m];
         int[,,] R = new int[m,m,m];
 
-        List<Task> listaDeTareas = new List<Task>();
+        List<Task> ListaDeTareas;
 
         for(int k = 1; k <= n; k++){
 
             for(int i = 1; i <= n; i++){
+
+                ListaDeTareas = new List<Task>();
 
                 for(int j = 1; j <= n; j++){
 
@@ -43,7 +45,7 @@ public class MultiplicacionDeMatricesCREW{
                     int y = j;
                     int z = k;
 
-                    listaDeTareas.Add(new Task(
+                    ListaDeTareas.Add(new Task(
 
                         () => {
                             
@@ -58,11 +60,13 @@ public class MultiplicacionDeMatricesCREW{
 
                 }
 
+                Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
+
             }
 
         }
 
-        Parallel.ForEach(listaDeTareas, tarea => tarea.RunSynchronously());
+       
         Console.WriteLine("Paso 1:\n");
         ImprimirRenglonDesglosado(S,R);
 
@@ -71,9 +75,9 @@ public class MultiplicacionDeMatricesCREW{
 
         for(int k = 2; k <= n; k++){
 
-            listaDeTareas = new List<Task>();
-
             for(int i = 1; i <= n; i++){
+
+                ListaDeTareas = new List<Task>();
 
                 for(int j = 1; j <= n; j++){
 
@@ -81,7 +85,7 @@ public class MultiplicacionDeMatricesCREW{
                     int y = j;
                     int z = k;
 
-                    listaDeTareas.Add(new Task(
+                    ListaDeTareas.Add(new Task(
                         
                         () => {
                             
@@ -95,9 +99,9 @@ public class MultiplicacionDeMatricesCREW{
 
                 }
 
-            }
+                Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
 
-            Parallel.ForEach(listaDeTareas, tarea => tarea.RunSynchronously());
+            }
 
         }
 
@@ -164,54 +168,38 @@ public class MultiplicacionDeMatricesCREW{
 
     private static int FindMaxLenghtInS(string[,,] S){
 
-        int maxLength = S[0,0,0].Length;
+        int MaxLength = S[0,0,0].Length;
 
-        for(int k = 0; k <= S.GetLength(2) - 1; k++){
+        foreach(string Element in S){
 
-            for(int i = 0; i <=  S.GetLength(0) - 1; i++){
+            if(Element.Length > MaxLength){
 
-                for(int j = 0; j <= S.GetLength(1) - 1; j++){
-
-                    if(S[i,j,k].Length > maxLength){
-
-                        maxLength = S[i,j,k].Length;
-
-                    }
-
-                }
+                MaxLength = Element.Length;
 
             }
 
         }
 
-        return maxLength;
+        return MaxLength;
 
     }
 
     private static int FindMaxLenghtInR(int[,,]R){
 
-        int n = R.GetLength(0) - 1;
-        int maxLength = R[0,0,0].ToString().Length;
+        int MaxLength = R[0,0,0].ToString().Length;
 
-        for(int k = 0; k <R.GetLength(2); k++){
+        foreach(int Element in R){
 
-            for(int i = 0; i<R.GetLength(0); i++){
+            if(Element.ToString().Length > MaxLength){
 
-                for(int j = 0; j <R.GetLength(1); j++){
-
-                    if(R[i,j,k].ToString().Length > maxLength){
-
-                        maxLength = R[i,j,k].ToString().Length;
-
-                    }
-                    
-                }
+                MaxLength = Element.ToString().Length;
 
             }
 
         }
 
-        return maxLength;
+        return MaxLength;
+
 
     }
 

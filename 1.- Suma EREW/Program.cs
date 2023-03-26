@@ -25,48 +25,45 @@ public class SumaEREW{
 
         int LongitudArreglo = VectorSuma.Length - 1;
         int LogBase2 = (int) Math.Log(LongitudArreglo,2);
-
         string[] VectorProcedimientos = new string[VectorSuma.Length];
 
-        for(int i = 1; i < LogBase2 + 1; i++){
+        for (int i = 1; i < LogBase2 + 1; i++){
 
-            ResetearVectorProcedimientos(VectorSuma, VectorProcedimientos);
+                ResetearVectorProcedimientos(VectorSuma,VectorProcedimientos);
+                List<Task> ListaDeTareas = new List<Task>();
 
-            for(int j = 1;  j < (int)(LongitudArreglo/2) + 1; j++){
+                for(int j = (int)Math.Pow(2, i - 1) + 1;  j < LongitudArreglo + 1; j++){
 
-                int x = i;
-                int y = j;
+                    int x = i;
+                    int y = j;
 
-                Task Tarea = new Task(
+                    ListaDeTareas.Add(new Task(
 
-                    () => {
+                        () => {
 
-                        if((2*y) % Math.Pow(2,x) == 0){
+                            if ((y % ((int)(Math.Pow(2, x)))) == 0){
 
-                            int a = VectorSuma[2*y];
-                            int b = VectorSuma[2*j - (int)Math.Pow(2,x - 1)];
+                                    int a = VectorSuma[y];
+                                    int b = VectorSuma[(y) - (int)(Math.Pow(2, x - 1))];
 
-                        VectorProcedimientos[2*y] = " (" + a.ToString() + " + " + b.ToString() + ") ";
-                        VectorSuma[2*y] = a + b;
+                                    VectorSuma[y] = a + b;
+                                    VectorProcedimientos[y] = " (" + a.ToString() + " + " + b.ToString() + ") ";
+
+                            }
 
                         }
 
-                    }
+                    ));
 
-                );
+                }
 
-                Tarea.RunSynchronously();
+                Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
 
-            }
-
-            ImprimirVectorProcedimientos(VectorProcedimientos);
-            ImprimirVectorNumerico(VectorSuma);
-
-        }
-
+                ImprimirVectorProcedimientos(VectorProcedimientos);
+                ImprimirVectorNumerico(VectorSuma);
+        } 
 
         return VectorSuma[LongitudArreglo];
-
     }
 
  private static void ImprimirVectorNumerico(int[] array){

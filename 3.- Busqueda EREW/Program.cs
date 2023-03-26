@@ -29,20 +29,25 @@ public class BusquedaEREW{
 
     }
 
-    private static void difusion(int[]A, int x){
+    private static void difusion(int[]A, int z){
 
-        A[1] = x;
+        A[1] = z;
 
         for(int i = 1; i < (int) (A.Length)/2 - 1; i++){
 
+            List<Task> ListaDeTareas = new List<Task>();
             
-
             for(int j = (int)(Math.Pow(2, i-1) + 1); j <= (int)Math.Pow(2,i);j++){
 
-                Task tarea = new Task(() =>{A[j] = A[j-(int)Math.Pow(2,i-1)];});
-                tarea.RunSynchronously();
+                int x = i;
+                int y = j;
+
+                ListaDeTareas.Add(new Task( () =>{A[y] = A[y-(int)Math.Pow(2,x-1)];}));
             
             }
+
+            Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
+
 
         }
 
@@ -52,33 +57,36 @@ public class BusquedaEREW{
 
         int n = L.Length;
 
-        for(int j = 1; j <= (int) Math.Log(n,2);j++){
+        for(int j = 1; j <= (int) Math.Log(n,2) - 1;j++){
+
+            List<Task> ListaDeTareas = new List<Task>();
 
             for(int i = 1; i <= (int) n / Math.Pow(2,j);i++){
 
-               Task tarea = new Task(
+                int x = i;
+
+               ListaDeTareas.Add(new Task(
 
                     () =>{
 
-                        if(L[2*i-1] >  L[2*1]){
-                           
+                        if(L[2*x-1] >  L[2*x]){
 
-                            L[i] = L[2*i];
+                            L[x] = L[2*x];
 
                         }else{
 
-                            L[i] = L[2*i-1];
+                            L[x] = L[2*x-1];
 
                         }
 
                     }
 
-                );
-
-                tarea.RunSynchronously();
+                ));
 
             }
 
+            Parallel.ForEach(ListaDeTareas, tarea => tarea.RunSynchronously());
+            
         }
 
         return L[1];

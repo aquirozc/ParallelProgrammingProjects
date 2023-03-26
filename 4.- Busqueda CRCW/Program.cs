@@ -24,15 +24,15 @@ public class BusquedaCRCW{
 
     public static int MinCRCW(int[] L){
 
-        List<Task> ListaDeTareas = new List<Task>();
         int[] win = new int[L.Length];
         int IndexMin = -1;
+        List<Task> ListaDeTareas = new List<Task>();
 
         for(int i = 1; i<= L.Length-1; i++){
 
             int a = i;
 
-                ListaDeTareas.Add(new Task(()=> win[a] =0));
+            ListaDeTareas.Add(new Task(()=> win[a] =0));
             
         }
 

@@ -34,8 +34,8 @@ public class OrdenamientoEREW{
             Parallel.Invoke(() => {
                 MergeSort(L, A, PuntoMedio);
                 MergeSort(L, PuntoMedio + 1, B);
-                OddEvenMerge(L, A, B);
             });
+	OddEvenMerge(L, A, B);
         }
     }
 
