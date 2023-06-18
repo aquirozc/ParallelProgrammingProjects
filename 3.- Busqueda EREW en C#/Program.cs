@@ -12,7 +12,7 @@ public class BusquedaEREW{
         
         System.Console.WriteLine("\nBusqueda EREW (Exclusive-read & Exclusive-Write)");
 
-        int[] demostracion =  new int[] {5,-1,23,-4,2,5,-2,0,5,1,5,-5,8,5,3,-2};
+        int[] demostracion =  new int[] {5,2,-1,23,-4,2,5,-2,0,5,1,5,-5,8,5,3,-2};
         ImprimirVectorNumerico(demostracion);
         System.Console.WriteLine();
         
@@ -31,13 +31,14 @@ public class BusquedaEREW{
 
     private static void difusion(int[]A, int z){
 
-        A[1] = z;
+        A[0] = z;
+        int logBase2 = (int)Math.Log(A.Length,2);
 
-        for(int i = 1; i < (int) (A.Length)/2 - 1; i++){
+        for(int i = 1; i <= logBase2; i++){
 
             List<Task> ListaDeTareas = new List<Task>();
             
-            for(int j = (int)(Math.Pow(2, i-1) + 1); j <= (int)Math.Pow(2,i);j++){
+            for(int j = (int)Math.Pow(2, i-1); j <= (int)Math.Pow(2,i);j++){
 
                 int x = i;
                 int y = j;
@@ -57,11 +58,11 @@ public class BusquedaEREW{
 
         int n = L.Length;
 
-        for(int j = 1; j <= (int) Math.Log(n,2) - 1;j++){
+        for(int j = 1; j <= (int) Math.Log(n,2);j++){
 
             List<Task> ListaDeTareas = new List<Task>();
 
-            for(int i = 1; i <= (int) n / Math.Pow(2,j);i++){
+            for(int i = 1; i <= (int) (n / Math.Pow(2,j));i++){
 
                 int x = i;
 
@@ -69,15 +70,20 @@ public class BusquedaEREW{
 
                     () =>{
 
+                        int result;
+
                         if(L[2*x-1] >  L[2*x]){
 
-                            L[x] = L[2*x];
+                            result = L[2*x];
 
                         }else{
 
-                            L[x] = L[2*x-1];
+                            result = L[2*x-1];
 
-                        }
+                        };
+
+                        Thread.Sleep(1);
+                        L[x] = result;
 
                     }
 
